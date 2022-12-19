@@ -14,6 +14,8 @@ import { get } from 'nvidia-smi-get';
 // equivalent to 'nvidia-smi -q'
 const gpuValue = get();
 console.log(gpuValue)
+// get gpu 0 current temp
+console.log(gpuValue['GPU 00000000:01:00.0']['Temperature']['GPU Current Temp'])
 ```
 
 Sample object return
