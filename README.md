@@ -1,157 +1,162 @@
-# wmic-get
-Simple wrapper around [WMIC](https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmic) interface for Node.js to retrieve all or specific property values.
+# nvidia-smi-get
+Simple wrapper around [nvidia-smi](https://developer.nvidia.com/nvidia-system-management-interface) interface for Node.js to retrieve infomation about NVIDIA GPU.
 
+Read more here https://developer.download.nvidia.com/compute/DCGM/docs/nvidia-smi-367.38.pdf
 ## Installation
 ```npm
-npm i wmic-get
+npm i nvidia-smi-get
 ```
 
 ## Example
 ```js
-import { getValue } from 'wmic-get';
+import { get } from 'nvidia-smi-get';
 
-// equivalent to ' wmic cpu get Name'
-const cpuName = getValue('CPU','Name');
-console.log(cpuName)
-// Sample: Microsoft Windows 11 Pro
+// equivalent to 'nvidia-smi -q'
+const gpuValue = get();
+console.log(gpuValue)
 ```
 
-## Usage
-### list(section)
-Return an array of values from `wmic` like Memory info.
-```js
-import { list } from 'wmic-get';
-
-// equivalent to ' wmic MEMPHYSICAL get'
-const mem = list('MEMPHYSICAL');
-console.log(mem)
-// Sample: [
-//  {
-//    Caption: 'Physical Memory Array',
-//    CreationClassName: 'Win32_PhysicalMemoryArray',
-//    Depth: '',
-//    Description: 'Physical Memory Array',
-//    Height: '',
-//    HotSwappable: '',
-//    InstallDate: '',
-//    Location: '3',
-//    Manufacturer: '',
-//    MaxCapacity: '67108864',
-//   ...
-
+Sample object return
 ```
-### get(section, attributeName | [attributesList])
-Return an array of values from `wmic` with input attribute/s.
-```js
-import { get } from 'wmic-get';
-
-// equivalent to ' wmic os get Name,OSType'
-const os = get('OS',['Name','OSType']);
-console.log(os)
-// Sample: [
-//  {
-//    Name: 'Microsoft Windows 11 Pro|C:\\WINDOWS|\\Device\\Harddisk1\\Partition2',
-//    OSType: '18'
-//  }
-//]
+{
+  Timestamp: 'Mon Dec 19 12:46:21 2022',
+  'Driver Version': '527.37',
+  'CUDA Version': '12.0',
+  'Attached GPUs': '1',
+  'GPU 00000000:01:00.0': {
+    'Product Name': 'NVIDIA GeForce RTX 3060',
+    'Product Brand': 'GeForce',
+    'Product Architecture': 'Ampere',
+    'Display Mode': 'Enabled',
+    'Display Active': 'Enabled',
+    'Persistence Mode': null,
+    'MIG Mode': { Current: null, Pending: null },
+    'Accounting Mode': 'Disabled',
+    'Accounting Mode Buffer Size': '4000',
+    'Driver Model': { Current: 'WDDM', Pending: 'WDDM' },
+    'Serial Number': null,
+    'GPU UUID': 'GPU-7a5de869-f88d-c8f5-660b-5d6e9cae21cc',
+    'Minor Number': null,
+    'VBIOS Version': '94.06.25.00.82',
+    'MultiGPU Board': 'No',
+    'Board ID': '0x100',
+    'Board Part Number': null,
+    'GPU Part Number': '2504-302-A1',
+    'Module ID': '1',
+    'Inforom Version': {
+      'Image Version': 'G001.0000.03.03',
+      'OEM Object': '2.0',
+      'ECC Object': null,
+      'Power Management Object': null
+    },
+    'GPU Operation Mode': { Current: null, Pending: null },
+    'GSP Firmware Version': null,
+    'GPU Virtualization Mode': { 'Virtualization Mode': 'None', 'Host VGPU Mode': null },
+    IBMNPU: { 'Relaxed Ordering Mode': null },
+    PCI: {
+      Bus: '0x01',
+      Device: '0x00',
+      Domain: '0x0000',
+      'Device Id': '0x250410DE',
+      'Bus Id': '00000000:01:00.0',
+      'Sub System Id': '0x40711458',
+      'GPU Link Info': [Object],
+      'Bridge Chip': [Object],
+      'Replays Since Reset': '0',
+      'Replay Number Rollovers': '0',
+      'Tx Throughput': '895000 KB/s',
+      'Rx Throughput': '191000 KB/s',
+      'Atomic Caps Inbound': null,
+      'Atomic Caps Outbound': null
+    },
+    'Fan Speed': '0 %',
+    'Performance State': 'P5',
+    'Clocks Throttle Reasons': {
+      Idle: 'Active',
+      'Applications Clocks Setting': 'Not Active',
+      'SW Power Cap': 'Not Active',
+      'HW Slowdown': 'Not Active',
+      'HW Thermal Slowdown': 'Not Active',
+      'HW Power Brake Slowdown': 'Not Active',
+      'Sync Boost': 'Not Active',
+      'SW Thermal Slowdown': 'Not Active',
+      'Display Clock Setting': 'Not Active'
+    },
+    'FB Memory Usage': {
+      Total: '12288 MiB',
+      Reserved: '159 MiB',
+      Used: '1142 MiB',
+      Free: '10986 MiB'
+    },
+    'BAR1 Memory Usage': { Total: '256 MiB', Used: '1 MiB', Free: '255 MiB' },
+    'Compute Mode': 'Default',
+    Utilization: { Gpu: '36 %', Memory: '18 %', Encoder: '0 %', Decoder: '0 %' },
+    'Encoder Stats': {
+      'Active Sessions': '0',
+      'Average FPS': '0',
+      'Average Latency': '0'
+    },
+    'FBC Stats': {
+      'Active Sessions': '0',
+      'Average FPS': '0',
+      'Average Latency': '0'
+    },
+    'Ecc Mode': { Current: null, Pending: null },
+    'ECC Errors': { Volatile: [Object], Aggregate: [Object] },
+    'Retired Pages': {
+      'Single Bit ECC': null,
+      'Double Bit ECC': null,
+      'Pending Page Blacklist': null
+    },
+    'Remapped Rows': null,
+    Temperature: {
+      'GPU Current Temp': '44 C',
+      'GPU Shutdown Temp': '98 C',
+      'GPU Slowdown Temp': '95 C',
+      'GPU Max Operating Temp': '93 C',
+      'GPU Target Temperature': '83 C',
+      'Memory Current Temp': null,
+      'Memory Max Operating Temp': null
+    },
+    'Power Readings': {
+      'Power Management': 'Supported',
+      'Power Draw': '21.99 W',
+      'Power Limit': '170.00 W',
+      'Default Power Limit': '170.00 W',
+      'Enforced Power Limit': '170.00 W',
+      'Min Power Limit': '100.00 W',
+      'Max Power Limit': '212.00 W'
+    },
+    Clocks: {
+      Graphics: '457 MHz',
+      SM: '457 MHz',
+      Memory: '810 MHz',
+      Video: '555 MHz'
+    },
+    'Applications Clocks': { Graphics: null, Memory: null },
+    'Default Applications Clocks': { Graphics: null, Memory: null },
+    'Deferred Clocks': { Memory: null },
+    'Max Clocks': {
+      Graphics: '2100 MHz',
+      SM: '2100 MHz',
+      Memory: '7501 MHz',
+      Video: '1950 MHz'
+    },
+    'Max Customer Boost Clocks': { Graphics: null },
+    'Clock Policy': { 'Auto Boost': null, 'Auto Boost Default': null },
+    Voltage: { Graphics: '662.500 mV' },
+    Fabric: { State: null, Status: null },
+    Processes: [
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object]
+    ]
+  }
+}
 ```
-### getValue(section, attributeName)
-Return value of specific attributes from `wmic`.
-```js
-import { getValue } from 'wmic-get'
-;
-// equivalent to ' wmic cpu get Manufacturer'
-const cpuMF = getValue('CPU','Manufacturer');
-console.log(cpuMF)
-// Sample: Microsoft Corporation
-```
-
-## Section list
-
-```
-ALIAS                    - Access to the aliases available on the local system
-BASEBOARD                - Base board (also known as a motherboard or system board) management.
-BIOS                     - Basic input/output services (BIOS) management.
-BOOTCONFIG               - Boot configuration management.
-CDROM                    - CD-ROM management.
-COMPUTERSYSTEM           - Computer system management.
-CPU                      - CPU management.
-CSPRODUCT                - Computer system product information from SMBIOS.
-DATAFILE                 - DataFile Management.
-DCOMAPP                  - DCOM Application management.
-DESKTOP                  - User's Desktop management.
-DESKTOPMONITOR           - Desktop Monitor management.
-DEVICEMEMORYADDRESS      - Device memory addresses management.
-DISKDRIVE                - Physical disk drive management.
-DISKQUOTA                - Disk space usage for NTFS volumes.
-DMACHANNEL               - Direct memory access (DMA) channel management.
-ENVIRONMENT              - System environment settings management.
-FSDIR                    - Filesystem directory entry management.
-GROUP                    - Group account management.
-IDECONTROLLER            - IDE Controller management.
-IRQ                      - Interrupt request line (IRQ) management.
-JOB                      - Provides  access to the jobs scheduled using the schedule service.
-LOADORDER                - Management of system services that define execution dependencies.
-LOGICALDISK              - Local storage device management.
-LOGON                    - LOGON Sessions.
-MEMCACHE                 - Cache memory management.
-MEMORYCHIP               - Memory chip information.
-MEMPHYSICAL              - Computer system's physical memory management.
-NETCLIENT                - Network Client management.
-NETLOGIN                 - Network login information (of a particular user) management.
-NETPROTOCOL              - Protocols (and their network characteristics) management.
-NETUSE                   - Active network connection management.
-NIC                      - Network Interface Controller (NIC) management.
-NICCONFIG                - Network adapter management.
-NTDOMAIN                 - NT Domain management.
-NTEVENT                  - Entries in the NT Event Log.
-NTEVENTLOG               - NT eventlog file management.
-ONBOARDDEVICE            - Management of common adapter devices built into the motherboard (system board).
-OS                       - Installed Operating System/s management.
-PAGEFILE                 - Virtual memory file swapping management.
-PAGEFILESET              - Page file settings management.
-PARTITION                - Management of partitioned areas of a physical disk.
-PORT                     - I/O port management.
-PORTCONNECTOR            - Physical connection ports management.
-PRINTER                  - Printer device management.
-PRINTERCONFIG            - Printer device configuration management.
-PRINTJOB                 - Print job management.
-PROCESS                  - Process management.
-PRODUCT                  - Installation package task management.
-QFE                      - Quick Fix Engineering.
-QUOTASETTING             - Setting information for disk quotas on a volume.
-RDACCOUNT                - Remote Desktop connection permission management.
-RDNIC                    - Remote Desktop connection management on a specific network adapter.
-RDPERMISSIONS            - Permissions to a specific Remote Desktop connection.
-RDTOGGLE                 - Turning Remote Desktop listener on or off remotely.
-RECOVEROS                - Information that will be gathered from memory when the operating system fails.
-REGISTRY                 - Computer system registry management.
-SCSICONTROLLER           - SCSI Controller management.
-SERVER                   - Server information management.
-SERVICE                  - Service application management.
-SHADOWCOPY               - Shadow copy management.
-SHADOWSTORAGE            - Shadow copy storage area management.
-SHARE                    - Shared resource management.
-SOFTWAREELEMENT          - Management of the  elements of a software product installed on a system.
-SOFTWAREFEATURE          - Management of software product subsets of SoftwareElement.
-SOUNDDEV                 - Sound Device management.
-STARTUP                  - Management of commands that run automatically when users log onto the computer system.
-SYSACCOUNT               - System account management.
-SYSDRIVER                - Management of the system driver for a base service.
-SYSTEMENCLOSURE          - Physical system enclosure management.
-SYSTEMSLOT               - Management of physical connection points including ports,  slots and peripherals, and proprietary connections points.
-TAPEDRIVE                - Tape drive management.
-TEMPERATURE              - Data management of a temperature sensor (electronic thermometer).
-TIMEZONE                 - Time zone data management.
-UPS                      - Uninterruptible power supply (UPS) management.
-USERACCOUNT              - User account management.
-VOLTAGE                  - Voltage sensor (electronic voltmeter) data management.
-VOLUME                   - Local storage volume management.
-VOLUMEQUOTASETTING       - Associates the disk quota setting with a specific disk volume.
-VOLUMEUSERQUOTA          - Per user storage volume quota management.
-WMISET                   - WMI service operational parameters management.
-```
-
 ## Contributing
 
 All contributions are accepted as a PR.

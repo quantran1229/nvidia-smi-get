@@ -1,5 +1,5 @@
 {
-  "name": "nvidia-smi",
+  "name": "nvidia-smi-get",
   "version": "1.0.0",
   "description": "NVIDIA SMI wrapper to get NVIDIA GPU info",
   "main": "dist/index.js",
