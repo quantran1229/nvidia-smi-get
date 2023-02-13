@@ -1,4 +1,5 @@
 import { execSync } from 'child_process';
+import { EOL } from 'os';
 
 type NSMI_OBJECT = {
   [key: string]: string | NSMI_OBJECT | NSMI_OBJECT[] | null;
@@ -58,7 +59,7 @@ const objectContruct = (listValue: Array<string>) => {
 }
 
 const processValue = (text: string) => {
-  const textList = text.split(`\r\n`).filter(e => e !== '' && !e.includes('=NVSMI LOG='));
+  const textList = text.split(EOL).filter(e => e !== '' && !e.includes('=NVSMI LOG='));
   return objectContruct(textList);
 };
 
